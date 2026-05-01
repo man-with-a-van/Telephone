@@ -85,7 +85,7 @@ final class CompositionRoot: NSObject {
         )
         let products = SKProductsRequestToProductsAdapter(expected: ExpectedProducts(), target: productsEventTargets)
         let store = SKPaymentQueueToStoreAdapter(queue: SKPaymentQueue.default(), products: products)
-        let receipt = BundleReceipt(bundle: Bundle.main, gateway: ReceiptXPCGateway())
+        let receipt = AlwaysValidReceipt()
         let storeViewEventTarget = DefaultStoreViewEventTarget(
             factory: DefaultStoreUseCaseFactory(
                 products: products,
@@ -302,5 +302,11 @@ final class CompositionRoot: NSObject {
         accountControllers = AccountControllers()
 
         nameServers = NameServers(bundle: Bundle.main, target: nameServersChangeEventTarget)
+    }
+}
+
+private struct AlwaysValidReceipt: Receipt {
+    func validate(completion: @escaping (ReceiptValidationResult) -> Void) {
+        completion(.receiptIsValid(expiration: .distantFuture))
     }
 }
