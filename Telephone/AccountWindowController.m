@@ -29,12 +29,6 @@
 @property(nonatomic, readonly) AccountViewController *accountViewController;
 @property(nonatomic, readonly, weak) id<AccountWindowControllerDelegate> delegate;
 
-@property(nonatomic, weak) IBOutlet NSImageView *accountStateImageView;
-@property(nonatomic, weak) IBOutlet NSPopUpButton *accountStatePopUp;
-@property(nonatomic, weak) IBOutlet NSMenuItem *availableStateItem;
-@property(nonatomic, weak) IBOutlet NSMenuItem *unavailableStateItem;
-@property(nonatomic, weak) IBOutlet NSMenuItem *offlineStateItem;
-
 @end
 
 @implementation AccountWindowController
@@ -82,32 +76,14 @@
 #pragma mark -
 
 - (void)showAvailableState {
-    self.accountStatePopUp.title = NSLocalizedString(@"Available", @"Account registration Available menu item.");
-    self.accountStateImageView.image = [NSImage imageNamed:@"available-state"];
-
-    self.availableStateItem.state = NSControlStateValueOn;
-    self.unavailableStateItem.state = NSControlStateValueOff;
-
     [self.accountViewController showActiveState];
 }
 
 - (void)showUnavailableState {
-    self.accountStatePopUp.title = NSLocalizedString(@"Unavailable", @"Account registration Unavailable menu item.");
-    self.accountStateImageView.image = [NSImage imageNamed:@"unavailable-state"];
-
-    self.availableStateItem.state = NSControlStateValueOff;
-    self.unavailableStateItem.state = NSControlStateValueOn;
-
     [self.accountViewController showActiveState];
 }
 
 - (void)showOfflineStateAnimated:(BOOL)animated {
-    self.accountStatePopUp.title = NSLocalizedString(@"Offline", @"Account registration Offline menu item.");
-    self.accountStateImageView.image = [NSImage imageNamed:@"offline-state"];
-
-    self.availableStateItem.state = NSControlStateValueOff;
-    self.unavailableStateItem.state = NSControlStateValueOff;
-
     [self.accountViewController showInactiveStateAnimated:animated];
 }
 
@@ -116,22 +92,10 @@
 }
 
 - (void)showConnectingState {
-    [[self accountStatePopUp] setTitle:
-     NSLocalizedString(@"Connecting...", @"Account registration Connecting... menu item.")];
 }
 
 - (void)makeCallToDestination:(NSString *)destination {
     [self.accountViewController makeCallToDestination:destination];
-}
-
-- (IBAction)changeAccountState:(NSPopUpButton *)sender {
-    if ([sender.selectedItem isEqual:self.offlineStateItem]) {
-        [self.delegate accountWindowController:self didChangeAccountState:AccountWindowControllerAccountStateOffline];
-    } else if ([sender.selectedItem isEqual:self.availableStateItem]) {
-        [self.delegate accountWindowController:self didChangeAccountState:AccountWindowControllerAccountStateAvailable];
-    } else if ([sender.selectedItem isEqual:self.unavailableStateItem]) {
-        [self.delegate accountWindowController:self didChangeAccountState:AccountWindowControllerAccountStateUnavailable];
-    }
 }
 
 - (void)showAlert:(NSAlert *)alert {
