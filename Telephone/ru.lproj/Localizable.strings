@@ -19,6 +19,9 @@
 /* Telephone quit confirmation. */
 "Are you sure you want to quit Telephone?" = "Вы действительно хотите выйти из Телефона?";
 
+/* Account registration Available menu item. */
+"Available" = "Доступен";
+
 /* Busy. */
 "busy" = "занято";
 
@@ -52,6 +55,9 @@
 
 /* Cancel button. */
 "Cancel" = "Отмена";
+
+/* Account registration Connecting... menu item. */
+"Connecting..." = "Соединение...";
 
 /* Products fetch error. */
 "Could not fetch products." = "Не удалось получить список продуктов.";
@@ -117,6 +123,9 @@
 /* Call has been taken off hold status text. */
 "off hold" = "продолжается";
 
+/* Account registration Offline menu item. */
+"Offline" = "Офлайн";
+
 /* Call on local hold status text. */
 "on hold" = "на ожидании";
 
@@ -176,6 +185,9 @@
 
 /* Failed to communicate with STUN server informative text. */
 "UDP packets are probably blocked. It is impossible to make or receive calls without that. Make sure that your local firewall and the firewall at your router allow UDP protocol." = "Скорее всего, прохождение UDP-пакетов заблокировано, а без этого невозможно совершать звонки. Убедитесь, что на компьютере и на маршрутизаторе разрешен протокол UDP.";
+
+/* Account registration Unavailable menu item. */
+"Unavailable" = "Недоступен";
 
 /* Audio device name is unknown. */
 "Unknown device" = "Неизвестное устройство";

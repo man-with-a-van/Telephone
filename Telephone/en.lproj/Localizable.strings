@@ -19,6 +19,9 @@
 /* Telephone quit confirmation. */
 "Are you sure you want to quit Telephone?" = "Are you sure you want to quit Telephone?";
 
+/* Account registration Available menu item. */
+"Available" = "Available";
+
 /* Busy. */
 "busy" = "busy";
 
@@ -52,6 +55,9 @@
 
 /* Cancel button. */
 "Cancel" = "Cancel";
+
+/* Account registration Connecting... menu item. */
+"Connecting..." = "Connecting...";
 
 /* Products fetch error. */
 "Could not fetch products." = "Could not fetch products.";
@@ -117,6 +123,9 @@
 /* Call has been taken off hold status text. */
 "off hold" = "off hold";
 
+/* Account registration Offline menu item. */
+"Offline" = "Offline";
+
 /* Call on local hold status text. */
 "on hold" = "on hold";
 
@@ -176,6 +185,9 @@
 
 /* Failed to communicate with STUN server informative text. */
 "UDP packets are probably blocked. It is impossible to make or receive calls without that. Make sure that your local firewall and the firewall at your router allow UDP protocol." = "UDP packets are probably blocked. It is impossible to make or receive calls without that. Make sure that your local firewall and the firewall at your router allow UDP protocol.";
+
+/* Account registration Unavailable menu item. */
+"Unavailable" = "Unavailable";
 
 /* Audio device name is unknown. */
 "Unknown device" = "Unknown device";

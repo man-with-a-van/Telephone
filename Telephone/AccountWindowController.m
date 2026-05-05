@@ -29,6 +29,9 @@
 @property(nonatomic, readonly) AccountViewController *accountViewController;
 @property(nonatomic, readonly, weak) id<AccountWindowControllerDelegate> delegate;
 
+@property(nonatomic, weak) IBOutlet NSImageView *accountStateImageView;
+@property(nonatomic, weak) IBOutlet NSTextField *accountStateLabel;
+
 @end
 
 @implementation AccountWindowController
@@ -76,14 +79,20 @@
 #pragma mark -
 
 - (void)showAvailableState {
+    self.accountStateLabel.stringValue = NSLocalizedString(@"Available", @"Account registration Available menu item.");
+    self.accountStateImageView.image = [NSImage imageNamed:@"available-state"];
     [self.accountViewController showActiveState];
 }
 
 - (void)showUnavailableState {
+    self.accountStateLabel.stringValue = NSLocalizedString(@"Unavailable", @"Account registration Unavailable menu item.");
+    self.accountStateImageView.image = [NSImage imageNamed:@"unavailable-state"];
     [self.accountViewController showActiveState];
 }
 
 - (void)showOfflineStateAnimated:(BOOL)animated {
+    self.accountStateLabel.stringValue = NSLocalizedString(@"Offline", @"Account registration Offline menu item.");
+    self.accountStateImageView.image = [NSImage imageNamed:@"offline-state"];
     [self.accountViewController showInactiveStateAnimated:animated];
 }
 
@@ -92,6 +101,7 @@
 }
 
 - (void)showConnectingState {
+    self.accountStateLabel.stringValue = NSLocalizedString(@"Connecting...", @"Account registration Connecting... menu item.");
 }
 
 - (void)makeCallToDestination:(NSString *)destination {
