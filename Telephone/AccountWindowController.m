@@ -129,7 +129,7 @@
 #pragma mark - NSWindowDelegate
 
 - (BOOL)windowShouldClose:(id)sender {
-    [self.window orderOut:self];
+    [NSApp terminate:sender];
     return NO;
 }
 
