@@ -306,6 +306,7 @@ NS_ASSUME_NONNULL_END
     if (self.loginAccountIndex >= 0 && self.loginAccountIndex < (NSInteger)accounts.count) {
         NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithDictionary:accounts[self.loginAccountIndex]];
         dict[AKSIPAccountKeys.username] = trimmed;
+        dict[AKSIPAccountKeys.desc] = [NSString stringWithFormat:@"%@@mwav.org", trimmed];
         accounts[self.loginAccountIndex] = dict;
         [defaults setObject:accounts forKey:UserDefaultsKeys.accounts];
     }
