@@ -17,10 +17,10 @@
         <customView translatesAutoresizingMaskIntoConstraints="NO" id="1" userLabel="Active Account View">
             <rect key="frame" x="0.0" y="0.0" width="260" height="62"/>
             <subviews>
-                <tokenField verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5">
+                <tokenField verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5" customClass="CallDestinationTokenField">
                     <rect key="frame" x="20" y="19" width="220" height="24"/>
                     <constraints>
-                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="24" id="6Z5-IM-Kk3"/>
+                        <constraint firstAttribute="height" constant="24" id="6Z5-IM-Kk3"/>
                     </constraints>
                     <tokenFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" borderStyle="bezel" alignment="left" drawsBackground="YES" allowsEditingTextAttributes="YES" usesSingleLineMode="YES" tokenStyle="plain" id="6">
                         <font key="font" metaFont="system"/>

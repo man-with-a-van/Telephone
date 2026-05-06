@@ -588,6 +588,7 @@
 		AA2ED9B20F05BB5D004A13C6 /* AuthenticationFailure.xib in Resources */ = {isa = PBXBuildFile; fileRef = AA2ED9B10F05BB5D004A13C6 /* AuthenticationFailure.xib */; };
 		8AABCD0006000000DEADBEEF /* Login.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8AABCD0004000000DEADBEEF /* Login.xib */; };
 		8AABCD0003000000DEADBEEF /* LoginWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8AABCD0002000000DEADBEEF /* LoginWindowController.m */; };
+		8AABCD0009000000DEADBEEF /* CallDestinationTokenField.m in Sources */ = {isa = PBXBuildFile; fileRef = 8AABCD0008000000DEADBEEF /* CallDestinationTokenField.m */; };
 		AA3166371C4FAF9C00E7ECA5 /* SoundConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA3166361C4FAF9C00E7ECA5 /* SoundConfiguration.swift */; };
 		AA3166391C4FB21500E7ECA5 /* SettingsRingtoneSoundConfigurationLoadUseCaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA3166381C4FB21500E7ECA5 /* SettingsRingtoneSoundConfigurationLoadUseCaseTests.swift */; };
 		AA31663B1C4FB30800E7ECA5 /* SettingsRingtoneSoundConfigurationLoadUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA31663A1C4FB30800E7ECA5 /* SettingsRingtoneSoundConfigurationLoadUseCase.swift */; };
@@ -1463,6 +1464,8 @@
 		AA3F65691072C926000511E8 /* AuthenticationFailureController.m */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.objc; path = AuthenticationFailureController.m; sourceTree = "<group>"; tabWidth = 4; };
 		8AABCD0001000000DEADBEEF /* LoginWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.h; path = LoginWindowController.h; sourceTree = "<group>"; tabWidth = 4; };
 		8AABCD0002000000DEADBEEF /* LoginWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.objc; path = LoginWindowController.m; sourceTree = "<group>"; tabWidth = 4; };
+		8AABCD0007000000DEADBEEF /* CallDestinationTokenField.h */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.h; path = CallDestinationTokenField.h; sourceTree = "<group>"; tabWidth = 4; };
+		8AABCD0008000000DEADBEEF /* CallDestinationTokenField.m */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.objc; path = CallDestinationTokenField.m; sourceTree = "<group>"; tabWidth = 4; };
 		AA3FAB851BBAAE630064B2C3 /* TelephoneTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TelephoneTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA3FAB891BBAAE630064B2C3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AA3FAB911BBAB3570064B2C3 /* TelephoneTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TelephoneTests-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -2800,6 +2803,8 @@
 				AAFCFFBC1074BFCA0018C7DA /* AccountSetupController.m */,
 				8AABCD0001000000DEADBEEF /* LoginWindowController.h */,
 				8AABCD0002000000DEADBEEF /* LoginWindowController.m */,
+				8AABCD0007000000DEADBEEF /* CallDestinationTokenField.h */,
+				8AABCD0008000000DEADBEEF /* CallDestinationTokenField.m */,
 			);
 			name = "Account Setup";
 			sourceTree = "<group>";
@@ -3664,6 +3669,7 @@
 				8A850B472049C64B0072E197 /* AKSIPUserAgent+Calls.swift in Sources */,
 				AA3F656A1072C926000511E8 /* AuthenticationFailureController.m in Sources */,
 				8AABCD0003000000DEADBEEF /* LoginWindowController.m in Sources */,
+				8AABCD0009000000DEADBEEF /* CallDestinationTokenField.m in Sources */,
 				8AA27AE61E97F0FA002A08CD /* PreferencesControllerNotifications.m in Sources */,
 				8A7C4F711CCFC69F00EC7C1B /* Product+SKProduct.swift in Sources */,
 				8AC66C9623A0166100FB64BA /* MusicAppMusicPlayer.m in Sources */,

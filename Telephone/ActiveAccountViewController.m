@@ -85,10 +85,16 @@ NSString * const kPhoneLabel = @"PhoneLabel";
     if (![self canMakeCall]) {
         return;
     }
-    
+
+    // Tear down the token field's field editor before showing the call window.
+    // Otherwise NSTokenFieldCell can enter an Auto Layout loop validating its
+    // editor during the call window's display cycle, which prevents the call
+    // window from appearing and leaves the dialer stuck.
+    [self.view.window makeFirstResponder:nil];
+
     NSDictionary *callDestinationDict = [[self callDestinationField] objectValue][0][[self callDestinationURIIndex]];
     NSString *phoneLabel = callDestinationDict[kPhoneLabel];
-    
+
     AKSIPURI *uri = [self callDestinationURI];
     if (uri != nil) {
         [[self accountController] makeCallToURI:uri phoneLabel:phoneLabel];
