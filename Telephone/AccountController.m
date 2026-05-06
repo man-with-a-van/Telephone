@@ -964,7 +964,7 @@ static NSString * const kRussian = @"ru";
 
 // This is the moment when the application starts doing its main job.
 - (void)networkReachabilityDidBecomeReachable:(NSNotification *)notification {
-    if (!self.sleepStatus.isSleeping && !self.isAccountUnavailable && !self.isAccountRegistered) {
+    if (!self.sleepStatus.isSleeping && !self.isAccountUnavailable && !self.isAccountRegistered && !self.loginInProgress) {
         [self registerAccount];
     }
 }
