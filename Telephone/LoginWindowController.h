@@ -36,11 +36,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property(nonatomic, weak) id<LoginWindowControllerDelegate> delegate;
 
-@property(nonatomic, copy) NSString *fullName;
-@property(nonatomic, copy) NSString *domain;
-
-@property(nonatomic, weak) IBOutlet NSTextField *fullNameLabel;
-@property(nonatomic, weak) IBOutlet NSTextField *domainLabel;
 @property(nonatomic, weak) IBOutlet NSTextField *usernameField;
 @property(nonatomic, weak) IBOutlet NSSecureTextField *passwordField;
 @property(nonatomic, weak) IBOutlet NSTextField *errorLabel;
@@ -48,7 +43,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, weak) IBOutlet NSButton *loginButton;
 @property(nonatomic, weak) IBOutlet NSButton *quitButton;
 
-- (instancetype)initWithFullName:(NSString *)fullName domain:(NSString *)domain;
+- (instancetype)init;
 
 - (IBAction)logIn:(id)sender;
 - (IBAction)quit:(id)sender;

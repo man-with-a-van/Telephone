@@ -23,19 +23,12 @@
 
 @implementation LoginWindowController
 
-- (instancetype)initWithFullName:(NSString *)fullName domain:(NSString *)domain {
-    self = [super initWithWindowNibName:@"Login"];
-    if (self != nil) {
-        _fullName = [fullName copy];
-        _domain = [domain copy];
-    }
-    return self;
+- (instancetype)init {
+    return [super initWithWindowNibName:@"Login"];
 }
 
 - (void)windowDidLoad {
     [super windowDidLoad];
-    [self.fullNameLabel setStringValue:self.fullName ?: @""];
-    [self.domainLabel setStringValue:self.domain ?: @""];
     [self.usernameField setStringValue:@""];
     [self.passwordField setStringValue:@""];
     [self.errorLabel setHidden:YES];
@@ -50,7 +43,7 @@
     NSString *password = [self.passwordField stringValue];
 
     if (username.length == 0 || password.length == 0) {
-        [self showLoginFailedWithMessage:NSLocalizedString(@"Enter user name and password.",
+        [self showLoginFailedWithMessage:NSLocalizedString(@"Enter staff ID and PIN.",
                                                             @"Login form validation error.")];
         return;
     }
@@ -74,7 +67,7 @@
     [self.passwordField setStringValue:@""];
     NSString *text = message.length > 0
         ? message
-        : NSLocalizedString(@"Login failed. Check your user name and password.",
+        : NSLocalizedString(@"Login failed. Check your staff ID and PIN.",
                             @"Inline login failure message.");
     [self.errorLabel setStringValue:text];
     [self.errorLabel setHidden:NO];

@@ -633,11 +633,7 @@ NS_ASSUME_NONNULL_END
         self.loginAccountController = target;
         self.loginAccountIndex = loginIndex;
 
-        NSDictionary *dict = accounts[loginIndex];
-        NSString *fullName = dict[AKSIPAccountKeys.fullName] ?: @"";
-        NSString *domain = dict[AKSIPAccountKeys.domain] ?: @"";
-
-        self.loginWindowController = [[LoginWindowController alloc] initWithFullName:fullName domain:domain];
+        self.loginWindowController = [[LoginWindowController alloc] init];
         self.loginWindowController.delegate = self;
 
         [[NSNotificationCenter defaultCenter] addObserver:self
