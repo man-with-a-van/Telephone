@@ -39,6 +39,8 @@
 #import "Telephone-Swift.h"
 
 NSString * const kEmailSIPLabel = @"sip";
+NSString * const AKAccountControllerLoginDidSucceedNotification = @"AKAccountControllerLoginDidSucceed";
+NSString * const AKAccountControllerLoginDidFailNotification = @"AKAccountControllerLoginDidFail";
 static NSString * const kRussian = @"ru";
 
 @interface AccountController () <AccountWindowControllerDelegate>
@@ -130,7 +132,7 @@ static NSString * const kRussian = @"ru";
                                                  repeats:YES]];
             }
             
-            if ([self shouldPresentRegistrationError]) {
+            if ([self shouldPresentRegistrationError] && ![self loginInProgress]) {
                 NSString *statusText;
                 NSString *preferredLocalization = [[NSBundle mainBundle] preferredLocalizations][0];
                 if ([preferredLocalization isEqualToString:kRussian]) {
@@ -138,7 +140,7 @@ static NSString * const kRussian = @"ru";
                 } else {
                     statusText = [[self account] registrationStatusText];
                 }
-                
+
                 NSString *error;
                 if (statusText == nil) {
                     error = [NSString stringWithFormat:
@@ -150,10 +152,10 @@ static NSString * const kRussian = @"ru";
                              NSLocalizedString(@"The error was: “%ld %@”.", @"Error description."),
                              [[self account] registrationStatus], statusText];
                 }
-                
+
                 [self showRegistrarConnectionErrorSheetWithError:error];
             }
-            
+
             [self setShouldPresentRegistrationError:NO];
         }
     }
@@ -479,6 +481,31 @@ static NSString * const kRussian = @"ru";
     [self.windowController showConnectingState];
 }
 
+- (void)refreshDisplayedDescription:(NSString *)description {
+    _accountDescription = [description copy];
+    [self.windowController updateAccountDescription:_accountDescription SIPAddress:self.account.SIPAddress];
+}
+
+- (void)attemptLoginWithUsername:(NSString *)username password:(NSString *)password {
+    [self setLoginInProgress:YES];
+    [self setShouldPresentRegistrationError:NO];
+
+    NSCharacterSet *spaces = [NSCharacterSet whitespaceAndNewlineCharacterSet];
+    NSString *trimmed = [username stringByTrimmingCharactersInSet:spaces];
+
+    if ([self isAccountAdded]) {
+        [[self userAgent] removeAccount:[self account]];
+    }
+
+    [[self account] updateUsername:trimmed];
+
+    NSString *service = [NSString stringWithFormat:@"SIP: %@", [[self account] registrar]];
+    [AKKeychain addItemWithService:service account:trimmed password:password];
+
+    [self showConnectingState];
+    [self registerAccount];
+}
+
 - (void)reRegistrationTimerTick:(NSTimer *)theTimer {
     [[self account] setRegistered:YES];
 }
@@ -520,29 +547,41 @@ static NSString * const kRussian = @"ru";
             if ([[self destinationToCall] length] > 0) {
                 [self makeCallToSavedDestination];
             }
+            if ([self loginInProgress]) {
+                [self setLoginInProgress:NO];
+                [[NSNotificationCenter defaultCenter]
+                 postNotificationName:AKAccountControllerLoginDidSucceedNotification object:self];
+            }
         }
-        
+
     } else {
         [self showUnavailableState];
-        
+
         // Handle authentication failure
         if ([[self account] registrationStatus] == PJSIP_SC_UNAUTHORIZED &&
             [[self account] registrationErrorCode] == PJSIP_EFAILEDCREDENTIAL) {
 
-            [[[self authenticationFailureController] informativeText] setStringValue:
-             [NSString stringWithFormat:
-              NSLocalizedString(@"Telephone was unable to login to %@. "
-                                 "Change user name or password and try again.",
-                                @"Registrar authentication failed."),
-              [[self account] registrar]]];
-            
-            NSString *service = [NSString stringWithFormat:@"SIP: %@", [[self account] registrar]];
-            NSString *password = [AKKeychain passwordForService:service account:[[self account] username]];
-            
-            [[[self authenticationFailureController] usernameField] setStringValue:[[self account] username]];
-            [[[self authenticationFailureController] passwordField] setStringValue:password];
+            if ([self loginInProgress]) {
+                [[NSNotificationCenter defaultCenter]
+                 postNotificationName:AKAccountControllerLoginDidFailNotification
+                               object:self
+                             userInfo:@{@"error": @""}];
+            } else {
+                [[[self authenticationFailureController] informativeText] setStringValue:
+                 [NSString stringWithFormat:
+                  NSLocalizedString(@"Telephone was unable to login to %@. "
+                                     "Change user name or password and try again.",
+                                    @"Registrar authentication failed."),
+                  [[self account] registrar]]];
 
-            [[self windowController] beginSheet:[[self authenticationFailureController] window]];
+                NSString *service = [NSString stringWithFormat:@"SIP: %@", [[self account] registrar]];
+                NSString *password = [AKKeychain passwordForService:service account:[[self account] username]];
+
+                [[[self authenticationFailureController] usernameField] setStringValue:[[self account] username]];
+                [[[self authenticationFailureController] passwordField] setStringValue:password];
+
+                [[self windowController] beginSheet:[[self authenticationFailureController] window]];
+            }
 
         } else if (([[self account] registrationStatus] / 100 != 2) &&
                    ([[self account] registrationExpireTime] == kAKSIPAccountRegistrationExpireTimeNotSpecified)) {
@@ -551,7 +590,7 @@ static NSString * const kRussian = @"ru";
             // status != 2xx AND expiration interval is not specified.
             
             if ([[self userAgent] isStarted]) {
-                if ([self shouldPresentRegistrationError]) {
+                if ([self loginInProgress]) {
                     NSString *statusText;
                     NSString *preferredLocalization = [[NSBundle mainBundle] preferredLocalizations][0];
                     if ([preferredLocalization isEqualToString:kRussian]) {
@@ -559,7 +598,29 @@ static NSString * const kRussian = @"ru";
                     } else {
                         statusText = [[self account] registrationStatusText];
                     }
-                    
+                    NSString *error;
+                    if (statusText == nil) {
+                        error = [NSString stringWithFormat:NSLocalizedString(@"Could not connect (error %ld).",
+                                                                              @"Login error, no status text."),
+                                 [[self account] registrationStatus]];
+                    } else {
+                        error = [NSString stringWithFormat:
+                                 NSLocalizedString(@"Could not connect: %ld %@.", @"Login error with status text."),
+                                 [[self account] registrationStatus], statusText];
+                    }
+                    [[NSNotificationCenter defaultCenter]
+                     postNotificationName:AKAccountControllerLoginDidFailNotification
+                                   object:self
+                                 userInfo:@{@"error": error}];
+                } else if ([self shouldPresentRegistrationError]) {
+                    NSString *statusText;
+                    NSString *preferredLocalization = [[NSBundle mainBundle] preferredLocalizations][0];
+                    if ([preferredLocalization isEqualToString:kRussian]) {
+                        statusText = LocalizedStringForSIPResponseCode([[self account] registrationStatus]);
+                    } else {
+                        statusText = [[self account] registrationStatusText];
+                    }
+
                     NSString *error;
                     if (statusText == nil) {
                         error = [NSString stringWithFormat:NSLocalizedString(@"Error %ld", @"Error #."),
@@ -570,9 +631,9 @@ static NSString * const kRussian = @"ru";
                                  NSLocalizedString(@"The error was: “%ld %@”.", @"Error description."),
                                  [[self account] registrationStatus], statusText];
                     }
-                    
+
                     [self showRegistrarConnectionErrorSheetWithError:error];
-                    
+
                 } else {
                     // Schedule account automatic re-registration timer.
                     if ([self reRegistrationTimer] == nil) {

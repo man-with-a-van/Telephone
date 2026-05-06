@@ -136,6 +136,15 @@
     return self.window.windowNumber;
 }
 
+- (void)updateAccountDescription:(NSString *)accountDescription SIPAddress:(NSString *)SIPAddress {
+    _accountDescription = [accountDescription copy];
+    _SIPAddress = [SIPAddress copy];
+    if (self.isWindowLoaded) {
+        self.window.title = _accountDescription;
+        self.window.frameAutosaveName = _SIPAddress;
+    }
+}
+
 #pragma mark - NSWindowDelegate
 
 - (BOOL)windowShouldClose:(id)sender {

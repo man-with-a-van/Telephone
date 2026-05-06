@@ -25,6 +25,15 @@
 // Address Book label for SIP address in the email field.
 extern NSString * const kEmailSIPLabel;
 
+// Posted when registration succeeds while the controller is in login mode.
+// |object| is the AccountController.
+extern NSString * const AKAccountControllerLoginDidSucceedNotification;
+
+// Posted when registration fails while the controller is in login mode.
+// |object| is the AccountController. |userInfo[@"error"]| is an NSString
+// describing the failure (may be empty for credential failures).
+extern NSString * const AKAccountControllerLoginDidFailNotification;
+
 @class AKSIPURI, AKNetworkReachability;
 @class AsyncCallHistoryPurchaseCheckUseCaseFactory, AsyncCallHistoryViewEventTargetFactory;
 @class CallTransferController, SanitizedCallDestination, StoreWindowPresenter, WorkspaceSleepStatus;
@@ -48,6 +57,10 @@ extern NSString * const kEmailSIPLabel;
 @property(nonatomic, copy) NSString *plusCharacterSubstitution;
 @property(nonatomic) BOOL callsShouldDisplayAccountInfo;
 @property(nonatomic, readonly) BOOL canMakeCalls;
+
+// When YES, registration failures are reported via login notifications instead
+// of presenting AuthenticationFailureController or registrar error sheets.
+@property(nonatomic) BOOL loginInProgress;
 
 
 - (instancetype)initWithSIPAccount:(AKSIPAccount *)account
@@ -85,7 +98,18 @@ extern NSString * const kEmailSIPLabel;
 
 - (void)showRegistrarConnectionErrorSheetWithError:(NSString *)error;
 
+- (void)showAvailableState;
 - (void)showUnavailableState;
 - (void)showConnectingState;
+
+// Attempts a SIP registration with the given credentials, marking the
+// controller as loginInProgress. Updates the in-memory username and the
+// keychain entry, then triggers (re)registration. Caller is responsible for
+// persisting the username to user defaults.
+- (void)attemptLoginWithUsername:(NSString *)username password:(NSString *)password;
+
+// Refreshes the displayed account description and SIP address (window title and
+// frame autosave name) after the underlying account's identity changes.
+- (void)refreshDisplayedDescription:(NSString *)description;
 
 @end

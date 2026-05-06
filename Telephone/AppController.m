@@ -22,6 +22,7 @@
 
 #import "AKAddressBookPhonePlugIn.h"
 #import "AKAddressBookSIPAddressPlugIn.h"
+#import "AKKeychain.h"
 #import "AKNetworkReachability.h"
 #import "AKNSString+Scanning.h"
 #import "AKSIPAccount.h"
@@ -34,6 +35,7 @@
 #import "ActiveAccountViewController.h"
 #import "AuthenticationFailureController.h"
 #import "CallController.h"
+#import "LoginWindowController.h"
 #import "NameServers.h"
 #import "PreferencesController.h"
 
@@ -41,7 +43,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface AppController () <AKSIPUserAgentDelegate, NSUserNotificationCenterDelegate, NameServersChangeEventTarget, PreferencesControllerDelegate, ObjCStoreEventTarget>
+@interface AppController () <AKSIPUserAgentDelegate, NSUserNotificationCenterDelegate, NameServersChangeEventTarget, PreferencesControllerDelegate, ObjCStoreEventTarget, LoginWindowControllerDelegate>
 
 @property(nonatomic, readonly) AKSIPUserAgent *userAgent;
 @property(nonatomic, readonly) AccountControllers *accountControllers;
@@ -67,6 +69,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, copy) NSString *destinationToCall;
 @property(nonatomic, getter=isUserSessionActive) BOOL userSessionActive;
 @property(nonatomic, readonly) NameServers *nameServers;
+@property(nonatomic, nullable) LoginWindowController *loginWindowController;
+@property(nonatomic, weak, nullable) AccountController *loginAccountController;
+@property(nonatomic) NSInteger loginAccountIndex;
 
 @end
 
@@ -279,6 +284,84 @@ NS_ASSUME_NONNULL_END
     [controller setPlusCharacterSubstitution:dict[UserDefaultsKeys.plusCharacterSubstitutionString]];
 
     return controller;
+}
+
+
+#pragma mark -
+#pragma mark LoginWindowControllerDelegate
+
+- (void)loginWindowController:(LoginWindowController *)controller
+       didSubmitWithUsername:(NSString *)username
+                    password:(NSString *)password {
+    AccountController *target = self.loginAccountController;
+    if (target == nil) {
+        return;
+    }
+
+    NSCharacterSet *spaces = [NSCharacterSet whitespaceAndNewlineCharacterSet];
+    NSString *trimmed = [username stringByTrimmingCharactersInSet:spaces];
+
+    NSUserDefaults *defaults = NSUserDefaults.standardUserDefaults;
+    NSMutableArray *accounts = [NSMutableArray arrayWithArray:[defaults arrayForKey:UserDefaultsKeys.accounts]];
+    if (self.loginAccountIndex >= 0 && self.loginAccountIndex < (NSInteger)accounts.count) {
+        NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithDictionary:accounts[self.loginAccountIndex]];
+        dict[AKSIPAccountKeys.username] = trimmed;
+        accounts[self.loginAccountIndex] = dict;
+        [defaults setObject:accounts forKey:UserDefaultsKeys.accounts];
+    }
+
+    [target attemptLoginWithUsername:trimmed password:password];
+}
+
+- (void)loginWindowControllerDidCancel:(LoginWindowController *)controller {
+    [NSApp terminate:self];
+}
+
+- (void)loginDidSucceed:(NSNotification *)notification {
+    if (notification.object != self.loginAccountController) {
+        return;
+    }
+
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:AKAccountControllerLoginDidSucceedNotification
+                                                  object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:AKAccountControllerLoginDidFailNotification
+                                                  object:nil];
+
+    [self.loginWindowController showLoginSucceeded];
+    [self.loginWindowController close];
+    self.loginWindowController = nil;
+
+    AccountController *target = self.loginAccountController;
+    self.loginAccountController = nil;
+
+    NSArray *accounts = [NSUserDefaults.standardUserDefaults arrayForKey:UserDefaultsKeys.accounts];
+    if (self.loginAccountIndex >= 0 && self.loginAccountIndex < (NSInteger)accounts.count) {
+        NSDictionary *dict = accounts[self.loginAccountIndex];
+        NSString *description = dict[AKSIPAccountKeys.desc];
+        if (description.length == 0) {
+            description = target.account.SIPAddress;
+        }
+        [target refreshDisplayedDescription:description];
+    }
+
+    [target showWindow];
+    // windowDidLoad ran during showWindow and reset the state label to "Offline".
+    // Re-issue the registered state so the UI matches the account's actual state.
+    [target showAvailableState];
+    [self.accountControllers updateCallsShouldDisplayAccountInfo];
+    [self.accountsMenuItems update];
+    [self.accountControllers registerAllAccountsWhereManualRegistrationRequired];
+    [self makeCallAfterLaunchIfNeeded];
+}
+
+- (void)loginDidFail:(NSNotification *)notification {
+    if (notification.object != self.loginAccountController) {
+        return;
+    }
+    NSString *message = notification.userInfo[@"error"];
+    [self.loginWindowController showLoginFailedWithMessage:message];
 }
 
 
@@ -532,19 +615,52 @@ NS_ASSUME_NONNULL_END
         [[[self accountSetupController] window] makeKeyAndOrderFront:self];
         return;
     }
+
+    // Wipe stored credentials so a fresh login is required each launch.
+    accounts = [self clearStoredCredentialsForAccounts:accounts];
+
+    NSInteger loginIndex = [self primaryLoginAccountIndexInAccounts:accounts];
+
     for (NSUInteger i = 0; i < accounts.count; ++i) {
         AccountController *controller = [self accountControllerWithDictionary:accounts[i]];
         [self.accountControllers addController:controller];
-        if (![controller isEnabled]) {
-            continue;
-        }
-        if (i == 0) {
-            [controller showWindow];
-        } else {
-            AccountController *previous = self.accountControllers[i - 1];
-            [controller orderWindow:NSWindowBelow relativeTo:previous.windowNumber];
-        }
     }
+    [self.accountsMenuItems update];
+
+    if (loginIndex != NSNotFound) {
+        AccountController *target = self.accountControllers[loginIndex];
+        [target setLoginInProgress:YES];
+        self.loginAccountController = target;
+        self.loginAccountIndex = loginIndex;
+
+        NSDictionary *dict = accounts[loginIndex];
+        NSString *fullName = dict[AKSIPAccountKeys.fullName] ?: @"";
+        NSString *domain = dict[AKSIPAccountKeys.domain] ?: @"";
+
+        self.loginWindowController = [[LoginWindowController alloc] initWithFullName:fullName domain:domain];
+        self.loginWindowController.delegate = self;
+
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(loginDidSucceed:)
+                                                     name:AKAccountControllerLoginDidSucceedNotification
+                                                   object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(loginDidFail:)
+                                                     name:AKAccountControllerLoginDidFailNotification
+                                                   object:nil];
+
+        NSWindow *loginWindow = self.loginWindowController.window;
+        [loginWindow center];
+        [loginWindow makeKeyAndOrderFront:self];
+
+        [self setShouldPresentUserAgentLaunchError:YES];
+        [self remindAboutPurchasingAfterDelay];
+        [self.compositionRoot.orphanLogFileRemoval performSelector:@selector(execute) withObject:nil afterDelay:0];
+        [self setFinishedLaunching:YES];
+        return;
+    }
+
+    [self showAllAccountWindows];
     [self.accountControllers updateCallsShouldDisplayAccountInfo];
     [self.accountsMenuItems update];
     [self setShouldPresentUserAgentLaunchError:YES];
@@ -554,6 +670,62 @@ NS_ASSUME_NONNULL_END
     [self.compositionRoot.orphanLogFileRemoval performSelector:@selector(execute) withObject:nil afterDelay:0];
     [self showAccountPreferencesIfNeeded];
     [self setFinishedLaunching:YES];
+}
+
+- (void)showAllAccountWindows {
+    NSArray<AccountController *> *all = self.accountControllers.all;
+    AccountController *previous = nil;
+    for (NSUInteger i = 0; i < all.count; ++i) {
+        AccountController *controller = all[i];
+        if (![controller isEnabled]) {
+            continue;
+        }
+        if (previous == nil) {
+            [controller showWindow];
+        } else {
+            [controller orderWindow:NSWindowBelow relativeTo:previous.windowNumber];
+        }
+        previous = controller;
+    }
+}
+
+- (NSArray *)clearStoredCredentialsForAccounts:(NSArray *)accounts {
+    NSUserDefaults *defaults = NSUserDefaults.standardUserDefaults;
+    NSMutableArray *updated = [NSMutableArray arrayWithCapacity:accounts.count];
+    BOOL changed = NO;
+    for (NSDictionary *dict in accounts) {
+        NSString *username = dict[AKSIPAccountKeys.username] ?: @"";
+        NSString *domain = dict[AKSIPAccountKeys.domain] ?: @"";
+        if (username.length > 0 && domain.length > 0) {
+            NSString *service = [NSString stringWithFormat:@"SIP: %@", domain];
+            [AKKeychain addItemWithService:service account:username password:@""];
+        }
+        if (username.length > 0) {
+            NSMutableDictionary *cleared = [NSMutableDictionary dictionaryWithDictionary:dict];
+            cleared[AKSIPAccountKeys.username] = @"";
+            [updated addObject:cleared];
+            changed = YES;
+        } else {
+            [updated addObject:dict];
+        }
+    }
+    if (changed) {
+        [defaults setObject:updated forKey:UserDefaultsKeys.accounts];
+    }
+    return updated;
+}
+
+- (NSInteger)primaryLoginAccountIndexInAccounts:(NSArray *)accounts {
+    for (NSUInteger i = 0; i < accounts.count; ++i) {
+        NSDictionary *dict = accounts[i];
+        BOOL enabled = [dict[UserDefaultsKeys.accountEnabled] boolValue];
+        NSString *fullName = dict[AKSIPAccountKeys.fullName] ?: @"";
+        NSString *domain = dict[AKSIPAccountKeys.domain] ?: @"";
+        if (enabled && fullName.length > 0 && domain.length > 0) {
+            return (NSInteger)i;
+        }
+    }
+    return NSNotFound;
 }
 
 - (void)configureUserAgent {

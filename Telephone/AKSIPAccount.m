@@ -288,6 +288,12 @@ NS_ASSUME_NONNULL_END
 
 - (void)updateUsername:(NSString *)username {
     self.username = username;
+    SIPAddress *address = [[SIPAddress alloc] initWithUser:username host:self.domain];
+    _SIPAddress = address.stringValue;
+    _uri = [[URI alloc] initWithUser:address.user
+                                host:address.host
+                         displayName:self.fullName
+                           transport:self.transport];
 }
 
 - (void)updateIdentifier:(NSInteger)identifier {

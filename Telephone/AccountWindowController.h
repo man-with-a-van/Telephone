@@ -54,6 +54,8 @@ typedef NS_ENUM(NSInteger, AccountWindowControllerAccountState) {
 - (void)orderWindow:(NSWindowOrderingMode)place relativeTo:(NSInteger)otherWindow;
 - (NSInteger)windowNumber;
 
+- (void)updateAccountDescription:(NSString *)accountDescription SIPAddress:(NSString *)SIPAddress;
+
 @end
 
 @protocol AccountWindowControllerDelegate

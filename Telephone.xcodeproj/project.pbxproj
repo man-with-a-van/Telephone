@@ -586,6 +586,8 @@
 		AA2ED9A50F05B5C6004A13C6 /* Preferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = AA2ED9A40F05B5C6004A13C6 /* Preferences.xib */; };
 		AA2ED9AC0F05BA11004A13C6 /* AccountSetup.xib in Resources */ = {isa = PBXBuildFile; fileRef = AA2ED9AB0F05BA11004A13C6 /* AccountSetup.xib */; };
 		AA2ED9B20F05BB5D004A13C6 /* AuthenticationFailure.xib in Resources */ = {isa = PBXBuildFile; fileRef = AA2ED9B10F05BB5D004A13C6 /* AuthenticationFailure.xib */; };
+		8AABCD0006000000DEADBEEF /* Login.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8AABCD0004000000DEADBEEF /* Login.xib */; };
+		8AABCD0003000000DEADBEEF /* LoginWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8AABCD0002000000DEADBEEF /* LoginWindowController.m */; };
 		AA3166371C4FAF9C00E7ECA5 /* SoundConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA3166361C4FAF9C00E7ECA5 /* SoundConfiguration.swift */; };
 		AA3166391C4FB21500E7ECA5 /* SettingsRingtoneSoundConfigurationLoadUseCaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA3166381C4FB21500E7ECA5 /* SettingsRingtoneSoundConfigurationLoadUseCaseTests.swift */; };
 		AA31663B1C4FB30800E7ECA5 /* SettingsRingtoneSoundConfigurationLoadUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA31663A1C4FB30800E7ECA5 /* SettingsRingtoneSoundConfigurationLoadUseCase.swift */; };
@@ -1192,6 +1194,7 @@
 		8AA748D11D744FAB000587DC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/NetworkPreferencesView.xib; sourceTree = "<group>"; };
 		8AA748D21D744FAB000587DC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/AuthenticationFailure.xib; sourceTree = "<group>"; };
 		8AA748D31D744FAB000587DC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/AccountSetup.xib; sourceTree = "<group>"; };
+		8AABCD0005000000DEADBEEF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/Login.xib; sourceTree = "<group>"; };
 		8AA748F81D74986A000587DC /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		8AA748FA1D74987E000587DC /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		8AA748FD1D749B00000587DC /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/MainMenu.strings; sourceTree = "<group>"; };
@@ -1458,6 +1461,8 @@
 		AA3B6E901C47C6590030D410 /* TimerSpy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimerSpy.swift; sourceTree = "<group>"; };
 		AA3F65681072C926000511E8 /* AuthenticationFailureController.h */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.h; path = AuthenticationFailureController.h; sourceTree = "<group>"; tabWidth = 4; };
 		AA3F65691072C926000511E8 /* AuthenticationFailureController.m */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.objc; path = AuthenticationFailureController.m; sourceTree = "<group>"; tabWidth = 4; };
+		8AABCD0001000000DEADBEEF /* LoginWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.h; path = LoginWindowController.h; sourceTree = "<group>"; tabWidth = 4; };
+		8AABCD0002000000DEADBEEF /* LoginWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.objc; path = LoginWindowController.m; sourceTree = "<group>"; tabWidth = 4; };
 		AA3FAB851BBAAE630064B2C3 /* TelephoneTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TelephoneTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA3FAB891BBAAE630064B2C3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AA3FAB911BBAB3570064B2C3 /* TelephoneTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TelephoneTests-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -1822,6 +1827,7 @@
 				AAFC00251074D0B50018C7DA /* NetworkPreferencesView.xib */,
 				AA2ED9B10F05BB5D004A13C6 /* AuthenticationFailure.xib */,
 				AA2ED9AB0F05BA11004A13C6 /* AccountSetup.xib */,
+				8AABCD0004000000DEADBEEF /* Login.xib */,
 				8A628948245761C100609016 /* PublicCAs.pem */,
 				8AE4E95B1DABBBF90003F063 /* Images.xcassets */,
 				8A70C46C1DAE832E002E8754 /* Credits.rtf */,
@@ -2792,6 +2798,8 @@
 				AA3F65691072C926000511E8 /* AuthenticationFailureController.m */,
 				AAFCFFBB1074BFCA0018C7DA /* AccountSetupController.h */,
 				AAFCFFBC1074BFCA0018C7DA /* AccountSetupController.m */,
+				8AABCD0001000000DEADBEEF /* LoginWindowController.h */,
+				8AABCD0002000000DEADBEEF /* LoginWindowController.m */,
 			);
 			name = "Account Setup";
 			sourceTree = "<group>";
@@ -3447,6 +3455,7 @@
 				AA2ED9A00F05B3B5004A13C6 /* Call.xib in Resources */,
 				AA2ED9AC0F05BA11004A13C6 /* AccountSetup.xib in Resources */,
 				AA2ED9B20F05BB5D004A13C6 /* AuthenticationFailure.xib in Resources */,
+				8AABCD0006000000DEADBEEF /* Login.xib in Resources */,
 				AA584A6A0F06CFD2003C4992 /* Localizable.strings in Resources */,
 				8AE4E95C1DABBBF90003F063 /* Images.xcassets in Resources */,
 				AA167A1E0F07BF9E00AF8B71 /* SIPResponses.strings in Resources */,
@@ -3654,6 +3663,7 @@
 				8A769CF82825A3E200BC57CB /* Clipboard.swift in Sources */,
 				8A850B472049C64B0072E197 /* AKSIPUserAgent+Calls.swift in Sources */,
 				AA3F656A1072C926000511E8 /* AuthenticationFailureController.m in Sources */,
+				8AABCD0003000000DEADBEEF /* LoginWindowController.m in Sources */,
 				8AA27AE61E97F0FA002A08CD /* PreferencesControllerNotifications.m in Sources */,
 				8A7C4F711CCFC69F00EC7C1B /* Product+SKProduct.swift in Sources */,
 				8AC66C9623A0166100FB64BA /* MusicAppMusicPlayer.m in Sources */,
@@ -4465,6 +4475,14 @@
 				8AA748D21D744FAB000587DC /* Base */,
 			);
 			name = AuthenticationFailure.xib;
+			sourceTree = "<group>";
+		};
+		8AABCD0004000000DEADBEEF /* Login.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8AABCD0005000000DEADBEEF /* Base */,
+			);
+			name = Login.xib;
 			sourceTree = "<group>";
 		};
 		AA34ACC2106E229A00FA38F7 /* ActiveAccountView.xib */ = {
