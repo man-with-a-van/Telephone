@@ -5120,7 +5120,8 @@
 					"-lopus",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.mwav.Telephone;
-				PRODUCT_NAME = Telephone;
+				PRODUCT_MODULE_NAME = Telephone;
+				PRODUCT_NAME = "mwav-phone";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Telephone/Telephone-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
@@ -5174,7 +5175,8 @@
 					"-lopus",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.mwav.Telephone;
-				PRODUCT_NAME = Telephone;
+				PRODUCT_MODULE_NAME = Telephone;
+				PRODUCT_NAME = "mwav-phone";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Telephone/Telephone-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;

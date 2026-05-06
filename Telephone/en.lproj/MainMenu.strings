@@ -15,13 +15,13 @@
 "29.title" = "AMainMenu";
 
 /* Class = "NSMenuItem"; title = "Telephone"; ObjectID = "56"; */
-"56.title" = "Telephone";
+"56.title" = "mwav-phone";
 
 /* Class = "NSMenu"; title = "Telephone"; ObjectID = "57"; */
-"57.title" = "Telephone";
+"57.title" = "mwav-phone";
 
 /* Class = "NSMenuItem"; title = "About Telephone"; ObjectID = "58"; */
-"58.title" = "About Telephone";
+"58.title" = "About mwav-phone";
 
 /* Class = "NSMenuItem"; title = "Close Window"; ObjectID = "73"; */
 "73.title" = "Close Window";
@@ -48,10 +48,10 @@
 "131.title" = "Services";
 
 /* Class = "NSMenuItem"; title = "Hide Telephone"; ObjectID = "134"; */
-"134.title" = "Hide Telephone";
+"134.title" = "Hide mwav-phone";
 
 /* Class = "NSMenuItem"; title = "Quit Telephone"; ObjectID = "136"; */
-"136.title" = "Quit Telephone";
+"136.title" = "Quit mwav-phone";
 
 /* Class = "NSMenuItem"; title = "Hide Others"; ObjectID = "145"; */
 "145.title" = "Hide Others";
