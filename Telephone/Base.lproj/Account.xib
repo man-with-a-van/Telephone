@@ -19,10 +19,10 @@
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
             <windowCollectionBehavior key="collectionBehavior" fullScreenNone="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="133" y="579" width="300" height="252"/>
+            <rect key="contentRect" x="133" y="579" width="380" height="252"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1440" height="875"/>
             <view key="contentView" wantsLayer="YES" id="4">
-                <rect key="frame" x="0.0" y="0.0" width="300" height="252"/>
+                <rect key="frame" x="0.0" y="0.0" width="380" height="252"/>
                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             </view>
             <toolbar key="toolbar" implicitIdentifier="2C054331-BFAD-476A-99A4-B2A04C36B553" autosavesConfiguration="NO" allowsUserCustomization="NO" showsBaselineSeparator="NO" displayMode="iconOnly" sizeMode="regular" id="57">
