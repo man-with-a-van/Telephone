@@ -4,6 +4,7 @@
 *.xcodeproj/project.xcworkspace/
 *.xcodeproj/xcuserdata/
 build/
+Builds/
 .idea/
 
 ThirdParty/Opus
