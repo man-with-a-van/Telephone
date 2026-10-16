@@ -13,3 +13,4 @@ ThirdParty/LibreSSL/*
 ThirdParty/PJSIP/*
 !ThirdParty/PJSIP/patches
 .env
+Telephone/CallerID.local.xcconfig

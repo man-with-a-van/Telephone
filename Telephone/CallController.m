@@ -34,6 +34,7 @@
 #import "CallTransferController.h"
 #import "EndedCallViewController.h"
 #import "IncomingCallViewController.h"
+#import "MWAVCallerIDNotifier.h"
 #import "SIPResponseLocalization.h"
 
 #import "Telephone-Swift.h"
@@ -476,6 +477,9 @@ static const NSTimeInterval kRedialButtonReenableTime = 1.0;
 }
 
 - (void)SIPCallDidConfirm:(NSNotification *)notification {
+    if (self.callerIDIdentifier != nil) {
+        [MWAVCallerIDNotifier notifyCall:self.call callID:self.callerIDIdentifier state:MWAVCallerIDStateAnswered];
+    }
     [self setCallStartTime:[NSDate timeIntervalSinceReferenceDate]];
     [self showActiveCallView];
     [self.activeCallViewController showHangUp];
@@ -484,6 +488,10 @@ static const NSTimeInterval kRedialButtonReenableTime = 1.0;
 }
 
 - (void)SIPCallDidDisconnect:(NSNotification *)notification {
+    if (self.callerIDIdentifier != nil) {
+        [MWAVCallerIDNotifier notifyCall:self.call callID:self.callerIDIdentifier state:MWAVCallerIDStateEnded];
+        self.callerIDIdentifier = nil;
+    }
     [self setCallActive:NO];
     [[self activeCallViewController] stopCallTimer];
     

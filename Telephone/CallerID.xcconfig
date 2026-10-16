@@ -1,0 +1,13 @@
+// Caller ID: where mwav-phone reports calls (mwav-backend docs/domains/caller-id.md).
+// Both stay empty here, and the app sends nothing until they're set. Set them in
+// CallerID.local.xcconfig next to this file (gitignored, the key is a secret):
+//
+//   MWAV_CALLER_ID_URL = https:/$()/<api host>/caller-id/call
+//   MWAV_CALLER_ID_KEY = <CALLER_ID_API_KEY from the backend .env>
+//
+// The $() stops "//" being read as a comment.
+
+MWAV_CALLER_ID_URL =
+MWAV_CALLER_ID_KEY =
+
+#include? "CallerID.local.xcconfig"

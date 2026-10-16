@@ -589,6 +589,7 @@
 		8AABCD0006000000DEADBEEF /* Login.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8AABCD0004000000DEADBEEF /* Login.xib */; };
 		8AABCD0003000000DEADBEEF /* LoginWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8AABCD0002000000DEADBEEF /* LoginWindowController.m */; };
 		8AABCD0009000000DEADBEEF /* CallDestinationTokenField.m in Sources */ = {isa = PBXBuildFile; fileRef = 8AABCD0008000000DEADBEEF /* CallDestinationTokenField.m */; };
+		8AABCD000C000000DEADBEEF /* MWAVCallerIDNotifier.m in Sources */ = {isa = PBXBuildFile; fileRef = 8AABCD000B000000DEADBEEF /* MWAVCallerIDNotifier.m */; };
 		AA3166371C4FAF9C00E7ECA5 /* SoundConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA3166361C4FAF9C00E7ECA5 /* SoundConfiguration.swift */; };
 		AA3166391C4FB21500E7ECA5 /* SettingsRingtoneSoundConfigurationLoadUseCaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA3166381C4FB21500E7ECA5 /* SettingsRingtoneSoundConfigurationLoadUseCaseTests.swift */; };
 		AA31663B1C4FB30800E7ECA5 /* SettingsRingtoneSoundConfigurationLoadUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA31663A1C4FB30800E7ECA5 /* SettingsRingtoneSoundConfigurationLoadUseCase.swift */; };
@@ -1466,6 +1467,9 @@
 		8AABCD0002000000DEADBEEF /* LoginWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.objc; path = LoginWindowController.m; sourceTree = "<group>"; tabWidth = 4; };
 		8AABCD0007000000DEADBEEF /* CallDestinationTokenField.h */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.h; path = CallDestinationTokenField.h; sourceTree = "<group>"; tabWidth = 4; };
 		8AABCD0008000000DEADBEEF /* CallDestinationTokenField.m */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.objc; path = CallDestinationTokenField.m; sourceTree = "<group>"; tabWidth = 4; };
+		8AABCD000A000000DEADBEEF /* MWAVCallerIDNotifier.h */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.h; path = MWAVCallerIDNotifier.h; sourceTree = "<group>"; tabWidth = 4; };
+		8AABCD000B000000DEADBEEF /* MWAVCallerIDNotifier.m */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.objc; path = MWAVCallerIDNotifier.m; sourceTree = "<group>"; tabWidth = 4; };
+		8AABCD000D000000DEADBEEF /* CallerID.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = CallerID.xcconfig; sourceTree = "<group>"; };
 		AA3FAB851BBAAE630064B2C3 /* TelephoneTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TelephoneTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA3FAB891BBAAE630064B2C3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AA3FAB911BBAB3570064B2C3 /* TelephoneTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TelephoneTests-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -2805,6 +2809,9 @@
 				8AABCD0002000000DEADBEEF /* LoginWindowController.m */,
 				8AABCD0007000000DEADBEEF /* CallDestinationTokenField.h */,
 				8AABCD0008000000DEADBEEF /* CallDestinationTokenField.m */,
+				8AABCD000A000000DEADBEEF /* MWAVCallerIDNotifier.h */,
+				8AABCD000B000000DEADBEEF /* MWAVCallerIDNotifier.m */,
+				8AABCD000D000000DEADBEEF /* CallerID.xcconfig */,
 			);
 			name = "Account Setup";
 			sourceTree = "<group>";
@@ -3670,6 +3677,7 @@
 				AA3F656A1072C926000511E8 /* AuthenticationFailureController.m in Sources */,
 				8AABCD0003000000DEADBEEF /* LoginWindowController.m in Sources */,
 				8AABCD0009000000DEADBEEF /* CallDestinationTokenField.m in Sources */,
+				8AABCD000C000000DEADBEEF /* MWAVCallerIDNotifier.m in Sources */,
 				8AA27AE61E97F0FA002A08CD /* PreferencesControllerNotifications.m in Sources */,
 				8A7C4F711CCFC69F00EC7C1B /* Product+SKProduct.swift in Sources */,
 				8AC66C9623A0166100FB64BA /* MusicAppMusicPlayer.m in Sources */,
@@ -5072,6 +5080,7 @@
 		};
 		C01FCF4B08A954540054247B /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8AABCD000D000000DEADBEEF /* CallerID.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Telephone/Telephone.entitlements;
@@ -5130,6 +5139,7 @@
 		};
 		C01FCF4C08A954540054247B /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8AABCD000D000000DEADBEEF /* CallerID.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Telephone/Telephone.entitlements;

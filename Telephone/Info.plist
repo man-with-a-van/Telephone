@@ -77,6 +77,10 @@
 			</array>
 		</dict>
 	</array>
+	<key>MWAVCallerIDKey</key>
+	<string>$(MWAV_CALLER_ID_KEY)</string>
+	<key>MWAVCallerIDURL</key>
+	<string>$(MWAV_CALLER_ID_URL)</string>
 	<key>NSUserNotificationAlertStyle</key>
 	<string>alert</string>
 </dict>
