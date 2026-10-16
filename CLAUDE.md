@@ -18,6 +18,13 @@ All three must be built with `-arch arm64 -arch x86_64 -mmacosx-version-min=13.5
 
 After third-party libs are in place, build via `Telephone.xcodeproj` (no workspace, no Package.swift, no SPM/CocoaPods/Carthage).
 
+## Releasing
+
+`./build-pkg.sh` does the whole release: archives the Release build, exports it signed with Developer ID (`ExportOptions.plist`), packages it (`component.plist`), signs the package, notarizes (`mwav-notary` keychain profile) and staples it, producing `Builds/mwav-phone-<MARKETING_VERSION>.pkg`. Setup it needs is listed at the top of the script.
+
+- Bump `MARKETING_VERSION` and `CURRENT_PROJECT_VERSION` (app target) first: the package is version-checked, so it won't replace an installed copy with a newer build number.
+- Run it on a Mac that has `Telephone/CallerID.local.xcconfig`. The caller ID key only lives there, and the script refuses to package a build without it.
+
 ## Testing
 
 Tests use XCTest. Shared schemes exist for the lower layers, which is the fast path when iterating on framework code:
