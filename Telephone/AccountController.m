@@ -34,6 +34,7 @@
 #import "ActiveAccountViewController.h"
 #import "AuthenticationFailureController.h"
 #import "CallTransferController.h"
+#import "MWAVCallerIDNotifier.h"
 #import "SIPResponseLocalization.h"
 
 #import "Telephone-Swift.h"
@@ -368,6 +369,10 @@ static NSString * const kRussian = @"ru";
         if (call != nil) {
             [aCallController setCall:call];
             [aCallController setCallActive:YES];
+            if (callTransferController == nil) {
+                aCallController.callerIDIdentifier = [NSUUID UUID].UUIDString;
+                [MWAVCallerIDNotifier notifyCall:call callID:aCallController.callerIDIdentifier state:MWAVCallerIDStateRinging];
+            }
         } else {
             [aCallController showEndedCallView];
             [aCallController setStatus:NSLocalizedString(@"Call Failed", @"Call failed.")];
@@ -686,6 +691,9 @@ static NSString * const kRussian = @"ru";
     [aCallController setCall:aCall];
     [aCallController setCallActive:YES];
     [[self callControllers] addObject:aCallController];
+    
+    aCallController.callerIDIdentifier = [NSUUID UUID].UUIDString;
+    [MWAVCallerIDNotifier notifyCall:aCall callID:aCallController.callerIDIdentifier state:MWAVCallerIDStateRinging];
     
     AKSIPURIFormatter *SIPURIFormatter = [[AKSIPURIFormatter alloc] init];
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];

@@ -42,6 +42,10 @@
 // Call controlled by the receiver.
 @property(nonatomic, strong) AKSIPCall *call;
 
+// Ties a call's caller ID reports together. Nil for call transfers, which are
+// never reported.
+@property(nonatomic, copy) NSString *callerIDIdentifier;
+
 // Account controller the receiver belongs to.
 @property(nonatomic, weak) AccountController *accountController;
 

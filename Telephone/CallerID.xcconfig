@@ -1,0 +1,16 @@
+// Caller ID: where mwav-phone reports calls (mwav-backend docs/domains/caller-id.md).
+// The URL defaults to the live API. The key is a secret and is never committed: set it
+// in CallerID.local.xcconfig next to this file (gitignored). Until it's set the app
+// sends nothing.
+//
+//   MWAV_CALLER_ID_KEY = <CALLER_ID_API_KEY from that backend's .env>
+//
+// To test against another backend, override the URL there too. The $() stops "//"
+// being read as a comment:
+//
+//   MWAV_CALLER_ID_URL = https:/$()/<api host>/caller-id/call
+
+MWAV_CALLER_ID_URL = https:/$()/api.mwav.org/caller-id/call
+MWAV_CALLER_ID_KEY =
+
+#include? "CallerID.local.xcconfig"
